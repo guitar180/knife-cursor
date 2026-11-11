@@ -1,0 +1,40 @@
+{
+  "name": "knife-cursor",
+  "productName": "Knife Cursor",
+  "version": "0.1.0",
+  "description": "Windows-first transparent, click-through cursor overlay with global F inspection animation.",
+  "main": ".vite/build/main.js",
+  "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Knife Cursor"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node scripts/dev.js",
+    "dev": "node scripts/dev.js",
+    "build": "node scripts/build.js",
+    "typecheck": "tsc --noEmit",
+    "package": "npm run build && electron-builder --win --x64 --dir && node scripts/verify-package.js",
+    "dist": "npm run build && electron-builder --win --x64 && node scripts/verify-package.js",
+    "verify:package": "node scripts/verify-package.js",
+    "clean": "node scripts/clean.js",
+    "clean:apply": "node scripts/clean.js --yes",
+    "clean:all": "node scripts/clean.js --yes --all"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "electron": "45.2.3",
+    "electron-builder": "^26.18.0",
+    "typescript": "^5.9.2",
+    "vite": "^5.4.21"
+  },
+  "dependencies": {
+    "uiohook-napi": "^1.5.4"
+  },
+  "allowScripts": {
+    "uiohook-napi@1.5.4": true
+  }
+}

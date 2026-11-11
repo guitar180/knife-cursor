@@ -1,0 +1,70 @@
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+body {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Do not set cursor:none here at all. The global PowerShell helper hides the
+   Windows cursor, and any CSS `none` in this full-screen click-through window
+   can keep suppressing the arrow after the helper has restored it. When the
+   helper is stopped, the real system cursor must be free to appear. */
+
+/* The outer node is the cursor anchor. Keeping position on this node and the
+   artwork scale/fade on its child means the player can never overwrite the
+   translate3d() that follows the mouse. */
+#cursor-proxy {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483647;
+  box-sizing: border-box;
+  width: 96px;
+  height: 96px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  contain: layout style paint;
+  will-change: transform;
+  transition: none;
+  transform: translate3d(-100px, -100px, 0);
+}
+
+#cursor-proxy.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.knife-visual {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.42));
+  will-change: transform;
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+#cursor-proxy.is-inspecting .knife-visual {
+  opacity: 1;
+}

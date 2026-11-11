@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' file:; script-src 'self' file:; style-src 'self' 'unsafe-inline' file:; img-src 'self' data: file: knife-asset:; font-src 'self' data: file:; connect-src 'self' ws://localhost:* ws://127.0.0.1:* http://localhost:* http://127.0.0.1:*; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'"
+    />
+    <title>Knife Cursor 设置</title>
+  </head>
+  <body>
+    <main class="settings-card">
+      <header class="settings-header">
+        <p class="eyebrow">KNIFE CURSOR</p>
+        <h1>设置</h1>
+        <p class="subtitle">拖动滑块立即生效，并自动保存到 config.json。</p>
+      </header>
+
+      <section class="setting">
+        <div class="setting-head">
+          <label for="duration">动画时长</label>
+          <output id="duration-value" for="duration">500 ms</output>
+        </div>
+        <input
+          id="duration"
+          type="range"
+          min="300"
+          max="2000"
+          step="100"
+          value="500"
+        />
+        <div class="range-hint" id="duration-hint">
+          <span>300 ms</span>
+          <span>2000 ms</span>
+        </div>
+      </section>
+
+      <section class="setting">
+        <div class="setting-head">
+          <label for="size">光标大小</label>
+          <output id="size-value" for="size">96 px</output>
+        </div>
+        <input
+          id="size"
+          type="range"
+          min="32"
+          max="256"
+          step="8"
+          value="96"
+        />
+        <div class="range-hint" id="size-hint">
+          <span>32 px</span>
+          <span>256 px</span>
+        </div>
+      </section>
+
+      <section class="setting">
+        <div class="setting-head">
+          <label for="smoothing">光标跟随松紧度</label>
+          <output id="smoothing-value" for="smoothing">45</output>
+        </div>
+        <input
+          id="smoothing"
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          value="45"
+        />
+        <div class="range-hint" id="smoothing-hint">
+          <span>0 · 硬绑定 / 零延迟</span>
+          <span>100 · 强拖影</span>
+        </div>
+      </section>
+
+      <section class="setting">
+        <div class="setting-head">
+          <label for="offset-x">X 轴偏移</label>
+          <output id="offset-x-value" for="offset-x">0 px</output>
+        </div>
+        <input
+          id="offset-x"
+          type="range"
+          min="-150"
+          max="150"
+          step="1"
+          value="0"
+        />
+        <div class="range-hint" id="offset-x-hint">
+          <span>-150 px</span>
+          <span>150 px</span>
+        </div>
+      </section>
+
+      <section class="setting">
+        <div class="setting-head">
+          <label for="offset-y">Y 轴偏移</label>
+          <output id="offset-y-value" for="offset-y">0 px</output>
+        </div>
+        <input
+          id="offset-y"
+          type="range"
+          min="-150"
+          max="150"
+          step="1"
+          value="0"
+        />
+        <div class="range-hint" id="offset-y-hint">
+          <span>-150 px</span>
+          <span>150 px</span>
+        </div>
+      </section>
+
+      <section class="setting cursor-toggle">
+        <div class="toggle-row">
+          <label class="toggle-label" for="hide-system-cursor">
+            隐藏 Windows 系统光标
+          </label>
+          <input
+            id="hide-system-cursor"
+            type="checkbox"
+            class="toggle-input"
+          />
+        </div>
+        <p class="toggle-hint">
+          关闭此项即可找回 Windows 原生鼠标，立即生效，不需要关闭设置窗口。开启后蝴蝶刀会替代系统箭头；设置窗口内也能看到它，仍可正常操作。
+        </p>
+      </section>
+
+      <section class="setting skin-section">
+        <div class="setting-head">
+          <span class="setting-title">动作管理 <span class="skin-badge" data-mode="custom" style="margin-left:8px">V2.0</span></span>
+        </div>
+        <p class="toggle-hint" style="margin-bottom:8px">
+          为每个子文件夹分配全局快捷键。按下快捷键时，播放对应文件夹内的帧动画。
+        </p>
+        <div class="actions-toolbar">
+          <button id="scan-actions" type="button">📁 扫描根目录</button>
+          <button id="refresh-actions" type="button" class="button-secondary" style="min-width:auto;padding-left:14px;padding-right:14px">🔄 刷新</button>
+        </div>
+        <p id="actions-root" class="actions-root" role="status" aria-live="polite"></p>
+        <div id="action-list" class="action-list" role="list"></div>
+        <div id="action-list-empty" class="action-list-empty">
+          暂无动作。点击"扫描根目录"选择一个包含子文件夹的目录。
+        </div>
+      </section>
+
+      <div class="offset-actions">
+        <div class="setting-head">
+          <span class="setting-title">素材来源</span>
+          <span id="skin-kind" class="skin-badge">内置</span>
+        </div>
+        <p id="skin-current" class="skin-current" role="status" aria-live="polite">
+          当前素材：内置素材
+        </p>
+        <div class="skin-actions">
+          <button id="choose-skin" type="button">选择自定义素材文件夹</button>
+          <button id="reset-skin" type="button" class="button-secondary">
+            恢复默认内置素材
+          </button>
+        </div>
+        <p class="toggle-hint">
+          文件夹内需包含 frame_000.png、frame_001.png … 序列帧；可选 idle.png 作为静止帧。选择后立即换皮，无需重启。
+        </p>
+      </section>
+
+      <div class="offset-actions">
+        <button id="reset-offsets" type="button" class="button-secondary">
+          恢复默认位置
+        </button>
+        <span class="offset-note">把刀尖/刀身对齐到你真正点击的位置</span>
+      </div>
+
+      <p id="status" class="status" role="status" aria-live="polite">
+        正在读取配置…
+      </p>
+
+      <footer class="settings-footer">
+        <button id="factory-reset" type="button" class="button-danger" style="margin-right:auto">
+          ⚠️ 重置所有配置
+        </button>
+        <button id="close" type="button">关闭</button>
+      </footer>
+    </main>
+
+    <script type="module" src="/src/settings.ts"></script>
+  </body>
+</html>

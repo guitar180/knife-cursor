@@ -1,0 +1,47 @@
+appId: com.knifecursor.app
+productName: Knife Cursor
+artifactName: Knife-Cursor-${version}-${arch}.${ext}
+copyright: Copyright © 2026 Knife Cursor
+
+directories:
+  output: dist
+
+# Avoid re-extracting the 150 MB Electron zip on every build. This directory is
+# exactly what npm's electron package already downloaded and verified.
+electronDist: node_modules/electron/dist
+
+# Keep source, TypeScript configs, dev dependencies and Electron itself out of
+# the app. Production node_modules are added by electron-builder, but the two
+# native-related packages are listed explicitly so a future allowlist change
+# cannot silently drop them.
+files:
+  - package.json
+  - ".vite/**/*"
+  - "assets/**/*"
+  - "node_modules/uiohook-napi/**/*"
+  - "node_modules/node-gyp-build/**/*"
+
+asar: true
+
+# A .node file cannot be dlopen()ed from inside app.asar. Unpack both the
+# prebuilt binding and node-gyp-build's resolver, which walks up from
+# uiohook-napi looking for the binding.
+asarUnpack:
+  - "node_modules/uiohook-napi/**/*"
+  - "node_modules/node-gyp-build/**/*"
+
+# uiohook-napi ships a Node-API prebuild. Do not run node-gyp: it would require
+# Visual Studio on the build machine and can overwrite the working prebuild.
+npmRebuild: false
+buildDependenciesFromSource: false
+
+win:
+  executableName: knife-cursor
+  # The overlay and the low-level hook do not require elevation. Keeping this
+  # explicit prevents an installer/manifest from forcing UAC on every launch.
+  requestedExecutionLevel: requireAdministrator
+  forceCodeSigning: false
+  target:
+    - target: zip
+      arch:
+        - x64
